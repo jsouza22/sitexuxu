@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+<!-- Site feito por J para Sarah ❤️. Com muito esforço, café e amor. -->
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Site para a Xuxu</title>
+<style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: #fffaf0;
+      color: #3e3e3e;
+    }
+    header {
+      background: #f4a7b9;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.8rem;
+    }
+    header p {
+      font-size: 1.3rem;
+      font-style: italic;
+    }
+    nav {
+      text-align: center;
+      background: #f7c8d3;
+      padding: 1rem;
+    }
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    section {
+      display: none;
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    section.active {
+      display: block;
+    }
+    .book {
+      perspective: 1500px;
+    }
+    .page {
+      width: 100%;
+      min-height: 600px;
+      max-height: 85vh;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      overflow-y: auto;
+      text-align: justify;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      white-space: pre-wrap;
+      transition: transform 0.8s;
+    }
+    .controls {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .controls button {
+      background: #f4a7b9;
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  
+.heart {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 0, 0, 0.3);
+  transform: rotate(45deg);
+  animation: float 10s infinite ease-in-out;
+  z-index: 0;
+}
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 0, 0, 0.3);
+  border-radius: 50%;
+}
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+.heart::after {
+  left: -10px;
+  top: 0;
+}
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* TEMA CLARO */
+body {
+  background: #fffaf0;
+  color: purple;
+}
+header {
+  background: #f4a7b9;
+}
+nav {
+  background: #f7c8d3;
+}
+.page {
+  background: #fff;
+}
+
+/* TEMA ESCURO */
+body.dark-theme {
+  background: #1a1a1a;
+  color: #e0b3ff;
+}
+body.dark-theme header {
+  background: #3d2b3d;
+}
+body.dark-theme nav {
+  background: #4d3a4d;
+}
+body.dark-theme .page {
+  background: #2a2a2a;
+}
+
+.botao-seta {
+  background: #f4a7b9;
+  border: none;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  margin: 0.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+body.dark-theme .botao-seta {
+  background: #4d3a4d;
+  color: #e0b3ff;
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: 2rem auto;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+.slide {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  transition: opacity 1s ease-in-out;
+}
+.slide.active {
+  opacity: 1;
+}
+body.dark-theme .slider, body.dark-theme .slide {
+  color: #e0b3ff;
+}
+
+.volume-control::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+.volume-control::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+</style>
+<style>
+/* Adaptação de cores para o modo claro e escuro */
+.fim-mensagem {
+  text-align: center;
+  margin-top: 2rem;
+  font-family: 'Georgia', serif;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #111;
+}
+.dark-mode .fim-mensagem {
+  color: white;
+}
+</style><style>
+.musica-titulo {
+  color: #111;
+  font-family: 'Georgia', serif;
+  margin-bottom: 0.5rem;
+}
+.dark-mode .musica-titulo {
+  color: white;
+}
+
+.descricao-musica {
+  color: #000; /* preto no claro */
+}
+.dark-mode .descricao-musica {
+  color: #d6afff; /* roxo claro no escuro */
+}
+</style><style>
+.descricao-musica {
+  color: #111;
+}
+.dark-mode .descricao-musica {
+  color: white;
+}
+</style><style>
+.descricao-musica {
+  color: #111; /* cor escura para fundo claro */
+  font-family: 'Georgia', serif;
+}
+.dark-mode .descricao-musica {
+  color: #d6afff; /* cor clara para fundo escuro */
+}
+</style>
+<style>
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0px rgba(244, 167, 185, 0.5); }
+  50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(244, 167, 185, 0.8); }
+  100% { transform: scale(1); box-shadow: 0 0 0px rgba(244, 167, 185, 0.5); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.botao-amor {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  background: #f4a7b9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+  transition: background 0.3s;
+}
+
+.mensagem-amor {
+  display: none;
+  margin-top: 1rem;
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  color: white;
+  background: #b30059;
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeInUp 1s ease-out forwards;
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Interligados</h1>
+<p>Tudo com você é melhor!</p>
+</header>
+<nav>
+<a onclick="mostrarPagina('inicio')">Início</a>
+<a onclick="mostrarPagina('momentos')">Momentos</a>
+<a onclick="mostrarPagina('fotos')">Fotos</a>
+<a onclick="mostrarPagina('futuro')">Presente/Futuro</a>
+<a onclick="mostrarPagina('musicas')">Músicas</a>
+<a onclick="mostrarPagina('fim')">Fim</a>
+<button id="themeToggle" style="margin-left: 2rem; background: #ffffff33; border: none; padding: 0.5rem 1rem; border-radius: 5px; font-weight: bold; color: white; cursor: pointer;">Alternar tema</button>
+</nav>
+<section class="active" id="inicio">
+<h2 style="text-align: center; font-family: 'Georgia', serif;">TUDO!</h2>
+<div class="book">
+<div class="page" id="paginaTexto">Oi minha macaquinha linda. Espero que esteja muito bem! Só quero lhe deixar algo claro aqui, por mais que esse treco todo tenha ficado uma MERDA, eu me esforcei muito. Então se um dia, cometer a pachorra de achar que não te amo como digo ou tiver qualquer dúvida, lembre-se que eu faria de tudo, mesmo que tivesse que atravessar o mundo ou ficar horas pesquisando coisas sobre html, java e tudo mais, montar código e montar um site humilde, apenas para tentar lhe tirar um sorriso, e não apenas um sorriso, mas O SORRISO. O MAIS LINDO DE TODOS. Esse trabalho todo sequer é algo comparado a tudo o que sinto por ti, que fique claro!
+Bom, imagino que isso irá virar um texto muito grande, sinto muito.
+ Bom, você deve ter reparado que coloquei "TUDO!" acima deste texto, e o porque é meio estranho, mas na minha cabeça faz sentido. Tudo sinto quando estou ao seu lado, e quando digo tudo, é TUDO! Coisas boas, ruins... Muito amor quando olho para esse rostinho lindo, muita tristeza quando tenho que me despedir de você, depois de termos passados horas e horas sorrindo e se divertindo juntos, muita raiva quando vejo você deixando de comer bem ou se cuidando, até mesmo me sinto egoísta, por querer ser o único a sentir seu amor, os seus carinhos, os seus beijos e abraços, ser aquele que você conta seus problemas, traumas, tristezas e etc. Tudo.
+ Lembro de coisas que talvez você nem faça ideia que rolaram. Lembro uma vez em que conversávamos pelo instagram (não tinha seu número ainda), e você me disse a maior mentira da sua vida... "Jogo vôlei melhor do que vava", que mentira escrotaKKKKKKKKKKKKKKK
+Lembro do nosso primeiro diálogo sobre vida amorosa e como reclamávamos do quão merda é a geração de hoje para essas coisas.
+Lembro do dia em que conversamos das meia noite até as CINCO DA MANHÃ e mal nos conhecíamos ainda.
+Lembro quando você me chamou de J pela primeira vez e eu fiquei feliz por algum motivo.
+Lembro de conversas sobre livros e muitas outras coisas.
+Lembro do dia em que te dei o primeiro abraço, foi bem chocho mas foi uma delícia.
+Lembro dia em que te dei um beijinho pela primeira vez. Sinceramente, via aquele pessoal bobo e apaixonado ficando feliz por coisas assim e achava idiota, mas aquele dia, até pulinhos na rua eu estava dando. Estava feliz e com um sentimento muito gostoso aqui dentro!
+Memória nunca foi meu ponto forte, mas aí é que tá, com você eu sempre faço questão de guardar essas coisas, por mais simples que pareça. São todas especiais para mim!
+
+ Mas nem tudo são flores, chegamos até aqui, e de verdade, estou amando a forma que estamos agora. Mas não pensei que conseguiríamos chegar aqui.
+ Quando digo que nunca pensei que estaríamos nisso como estamos hoje, envolve muitas coisas, mas preciso ser claro e mostrar uma vulnerabilidade minha a você... Eu tive e tenho muito medo de tudo isso. Tenho medo de sermos separados como daquela vez, tenho medo de não darmos certo por não entender certas coisas por falta de maturidade ou parecido. Tenho medo de que a gente se machuque, tenho medo de te machucar sem que eu perceba ou então de simplesmente acabar com tudo. Porque? Bom, fácil... Eu sou fascinado por você, e tenho certeza que você é, e tem tudo o que eu quero para o meu futuro. Eu seria o ser humano mais feliz do mundo tendo essa menina pequena, fofa, delicada, linda e incrível como esposa, mãe dos meus filhos e como a minha única e melhor amiga no futuro!
+ Eu não sei como foi seu lado, mas sempre tive muito medo de você não sentir o mesmo e eu criar expectativas atoa. Não sei se lembra, mas quando contei a você sobre meu único "relacionamento", disse que foi algo muito unilateral, e literalmente foi. A pessoa não falava o que sentia, não demonstrava, não fazia metade do que eu fazia, então eu simplesmente não consegui lidar com a sua forma de expressar sentimentos padrão, que era mais atitude. Como eu já lhe disse, eu conseguia reparar que gostava de mim, que se importava e que queria meu bem, mas eu não sabia se era como eu. Não sabia como você se sentia ao meu lado, não sabia se sentia seu coração acelerar assim como eu sentia o meu, não sabia se era na mesma intensidade que eu ou se era apenas uma paixão boba e que não seria levada à diante. Eu realmente pensava muito nisso o tempo todo, mas não conseguia te falar isso com clareza, pois sempre quis que tudo isso fosse natural e acontecesse no seu tempo. Mas de verdade, eu jamais esperaria que aconteceria nesse meio tempo.
+Era quarta feira, dia 11/06; simplesmente recebi um "Agora eu diria que te amo, mas prefiro dizer pessoalmente". Cara, nem foi o Eu te amo em si, mas aquilo ali acabou comigo. Todo aquela agonia sumiu, e mesmo com tanta coisa merda acontecendo, mesmo com um ano tão bagunçado, eu só consigo pensar no que me foi dito mais tarde naquele mesmo dia, "Divirta-se. Te amo gatinho". 
+Talvez o fato de você me assustar tanto, seja porque eu te amo, e sendo sincero, tem dias que quero gritar para todos sobre o quão incrível você é, sobre o quanto eu te amo e te vejo como essencial para a minha vida, como o meu desejo por você só queima mais e mais, ou então, fazer loucuras de amor, mesmo em meio a multidões. E bom, talvez isso pareça simples, mas para o garoto que não gosta nem de sair de casa sem estar com a barba feita, odeia locais cheios e com muitas pessoas, isso é assustador!
+
+ Até um tempo atrás, eu era muito sozinho, já lhe disse isso. Eu gostava disso porque assim eu sentia que ninguém além de mim, precisava me entender, me conhecer ou dar palpite sobre a minha vida. Me sentia sozinho as vezes, mas também me sentia livre, pois sabia que aquilo era melhor do que viver ao lado de pessoas que jamais se importariam comigo como eu sempre me importo com elas. Ninguém me machucaria. E eu poderia ser eu mesmo comigo.
+Mas conheci uma menina. Uma menina que pelo menos a grande maioria das pessoas que conheço em comum com ela, dizem que ela é super carismática, gente boa e legal. Mas quando entrou na minha vida, vi muito mais que isso. Tem uma menina aí dentro que mesmo que não consiga falar sobre isso ou não saiba, já se machucou muito. Uma menina que aguentou brigas, momentos de tristeza e coisas muito complicadas em sua volta. Essa princesa, anda sempre com aquele lindo sorriso em seu rosto, e sempre está fazendo a felicidade de todos, mesmo não estando tão bem as vezes. Vi alguém que é sempre doce, educada, especial, atenciosa, cuidadosa, inteligente, delicada, e muito além do que a maioria das pessoas do mundo são. Você tem uma pureza dentro de você que sem sombra de dúvidas, é único seu.
+Lá embaixo do texto, você verá "Eu te vejo", e espero que agora tenha entendido essa frase. Eu vejo muito de você, mesmo que não me conte. Quero ver e saber muito mais!
+
+ Acredito que você me conheça melhor do que ninguém, mesmo que nem tenhamos conversado sobre muitas coisas. Você tem meu lado sentimental, meu lado ciumento, chato, idiota, protetor, maluco, burro, inteligente, nerd e várias outras partes e versões minhas pelas quais eu quero mostrar/mostro apenas à você. Você me disse hoje (dia 17/06) que eu sou seu, que você vai casar comigo, que vamos ter uma família juntos e que vamos morrer juntos... Bom, só de escutar que sou seu, já é algo incrível para mim.
+Espero ter a sorte de casar com você, de fazermos o melhor amor do mundo e ter uma miniatura com o rostinho lindo da mãe. Espero poder te falar todas aquelas palavras bonitas no altar, declarar meu amor a você de frente a todas as pessoas e fazer aquela famosa promessa: "até que a morte nos separe", afinal de contas, eu serei completamente feliz vivendo com você até esse ponto. E caso acontecesse de um dia você partir antes de mim, eu estaria satisfeito com tudo o que tive de você, e sei que eu posso queimar minha lingua, mas se fizermos aquela promessa, e mesmo que não a façamos, NUNCA haverá outro alguém, afinal, eu sou seu.
+ Meu sonho era ser um bom pai e um bom marido, mas hoje eu vejo você nesses sonhos como algo fixo, e espero que se concretize. Pois seria uma vida dos sonhos, sem dúvidas.
+
+ Eu tenho vívido coisas inimagináveis com você por esses meses, e tudo sobre você é incrível para mim. Espero continuar nisso para todo o sempre. Espero continuar deslumbrando desse conto mágico e cheio de fantasias como seus livros. Espero poder ter uma história enorme com você.
+Espero ser aquele que você procura nas noites cansativas, tristes e melancólicas. Espero ser aquele que você procura quando sua tpm chegar, e você chorar por algo que não costuma chorar ou ficar mal enquanto está sã. Espero ser aquele que você procura abraçar quando sentir medo. Espero ser aquele pelo qual passa horas e horas escutando a baixinha mais preciosa do mundo falando das coisas que gosta. Espero ser a sua proteção! O seu homem!
+
+Eu te vejo
+Eu te cuido
+Eu te sinto
+Eu te honro 
+Eu te venero
+Meu amor por você é inefável!
+
+
+Acho que não, mas se acontecer de não ter um dia legal, ou se acontecer de se sentir insegura consigo mesma, me avise, ou entre aqui. Afinal de contas, pra que insegurança consigo mesma quando se é tão perfeita assim, né?! Insegurança com sua aparência??? Não rola. É a coisinha mais linda do mundo. Cabelo???? Esses cachinhos são a oitava maravilha do mundo, e as outras sete estão em você também. Seus olhinhos??? Sempre me terão e serão meu maior ponto fraco, eles e seu lindo sorriso gentil e lindo.
+Suas bochechas fofas, sua pele linda e sedosa e tudo isso.
+Seu corpo??? Tá maluca xuxu??? Você é perfeita dos pés a cabeça. Pés lindinhos e pequenos. Pernas lindinhas e pequenas, cochas grossas mas macias e maravilhosas. Barriguinha perfeita, costas também. E o resto nem vou entrar em detalhes, mas assim como foi dito, você é perfeita dos pés a cabeça, cada detalhe, cada pinta, cada marca e tudo!
+
+Não sou tão ligado a religião, mas acredito em Deus. Na bíblia, em Cântico dos Cânticos 4:7 se não estou enganado, tem um versículo que diz algo que sempre ressoa em minha cabeça quando penso ou olho para você. Acho que é: "você é toda linda (ou preciosa, não me recordo), minha querida; em você, não há defeito algum". Você não é perfeita, ninguém é. Mas fisicamente, terá que escutar isso da minha pessoa para todo sempre.
+
+Somos novos, eu já estou entrando em uma fase nova e mais complicada da vida, logo você também entrará. Sei que será difícil e que acontecerão muitas coisas até um possível futuro nosso juntos, e por mais que eu tenha muito medo de te perder, eu prefiro passar por esse medo ao teu lado, para que se for da vontade de Deus e se for para acontecer, possamos ficar juntos no final e viver o que é para nós!
+Cresça, amadureça e arrisque suas vontades e seus desejos para o futuro. Independente de tudo, estarei aqui para tentar lhe auxiliar e lhe dar o conforto e apoio necessário. 
+Independente de tudo, tenho muito orgulho da menina incrível que você é e está se tornando. Inteligente, muito forte, determinada, meiga, doce, bondosa e muitas outras coisas. Como sempre digo, tenho inveja de todos que podem ter o imenso prazer de apenas tê-la como amiga ou conhecida. Realmente somos muito sortudos.
+
+Para finalizar, quero deixar algo bem claro. Independente da situação, seja agora ou no futuro, seja comigo ou sem mim, seja com outras pessoas ou sei lá... Nunca aceite menos do que você merece. E se chegar um dia em que faça isso, lembre-se que um garoto bobo de 17 anos disse que você era tudo para ele. Lembre-se que mesmo tendo perdido coisas pelas quais esse garoto não sabia que era capaz de viver sem, ele simplesmente conseguiu agradecer, porque por mais que houvesse perdas, houve um ganho muito grande, e eu não posso deixar que isso não fique claro... Você é esse ganho! Você é quem amenizou minha dor, me trouxe amor, me mostrou um mundo novo e especial, e é a pessoa que independente do que aconteça, será meu primeiro e único amor. Você é a pessoa pela qual eu quero construir uma família e tudo o que sempre sonhei um dia. É a pessoa pela qual eu quero poder expressar meu amor por todos os dias da vida, sem sequer ter dúvidas de que é amor. Não sei o que eu seria sem você, talvez pudesse até estar muito bem, mas jamais conseguiria me sentir assim, e eu nem sei te dar uma definição do que seria esse "assim". Mas é mais do que incrível!
+
+EU TE AMO, SARAH GONÇALVES MANTOVANELI. SOU MAIS E MAIS FELIZ A CADA DIA SOMADO AO TEU LADO, A CADA GARGALHADA E A CADA CONVERSA, BEIJO, ABRAÇO... OBRIGADO POR EXISTIR, POR SER VOCÊ E POR SER ALGUÉM TÃO ÚNICA NA MINHA VIDA. EU SOU SEU, MINHA ALMA É SUA, E ESPERO SER ASSIM POR TODA A MINHA VIDA, APENAS COM VOCÊ!<div style="margin-top: 2rem; text-align: right; font-family: 'Brush Script MT', cursive; font-size: 1.8rem; color: #b30059;">Assinado: J ❤️</div></div>
+</div>
+<div class="setas-navegacao" style="text-align: center; margin-top: 2rem;"><button class="botao-seta" onclick="mostrarPagina('momentos')">Próxima ➡</button></div></section>
+<section id="momentos">
+<h2 style="text-align: center; font-family: 'Georgia', serif;">Momentos Inesquecíveis</h2>
+<div class="page">
+<h3>✨ O dia mais brilhante</h3>
+<p>Lembro como se fosse hoje o dia em que vi seus olhos pela primeira vez. Foi no dia em que fui à escola de vocês para a festa de Halloween. Cheguei perto de você para lhe devolver seu livro e o sol foi em seu rosto... Seus olhos brilharam e eu fiquei abismado com aqueles olhos e aquele rostinho pequeno e fofo. Naquele dia, eu tive os primeiros contatos com você, e mesmo que estivesse amando aquele dia e pensando muitas coisas, jamais imaginaria que acabaríamos virando tudo isso!</p>
+<h3>🏍️ Primeira voltinha juntos</h3>
+<p>Você me lembrou do dia em que andamos de motinha juntos pela primeira vez, e realmente, foi uma maravilhaaaa.
+Me arrepiei quando você segurou em mim, e foi uma voltinha muito boaaaa.
+Rimos muito e foi muito divertido aquele dia todo em si!</p>
+<h3>💌 Primeira "declaração"</h3>
+<p>Lembro quando criei coragem e lhe disse pela primeira vez que estava começando a criar sentimentos por você.
+A mensagem que mandei a você foi: <br/><strong>"eu gosto de você e estou gostando muito de te conhecer. Acho que não tem como ser mais claro que isso."</strong><br/>
+Lembro que por estar nervoso, estávamos em um diálogo onde era uma conversa muito indireta e cheia de ironia.
+Ri muito de nervoso nesse dia, e mesmo você não sendo tão clara nas respostas, já estava todo idiota imaginando coisas.
+Realmente foi um dia feliz para mim, até porque um pouco depois disso, você escreveu:<br/><br/>
+<em>"E mesmo assim, antes de vc virar pra mim e me dizer que queria lascar um beijo em mim, eu estava pensando em quando a gente estivesse andando de motinha, eu pediria pra vc parar aquela porcaria, e te dar um selinho. Mais obviamente n sei se tenho tanta coragem assim".</em><br/><br/>
+QUE MOMENTO!
+</p>
+<h3>💋 Primeiro beijinho</h3>
+<p>Sendo sincero, não me lembro ao certo se a primeira vez que consegui esse beijinho foi naquela vez em que te beijei na sua casa — que inclusive, titia quase matou eu — ou se foi nas voltinhas de moto.
+Acho que o primeiro foi na voltinha, não me lembro ao certo.
+Mas eu lembro perfeitamente do quão nervoso eu estava para receber aquele que para muitos é um simples selinho.
+Poder te segurar e te dar aqueles beijinhos, e assim como faço hoje, é a melhor coisa do mundooo. Assim como os abraços.</p><h3>😴 O melhor sono</h3><p>Há algum tempo, tive a chance de passar um tempo aí, mas não só isso. Pude me tornar mais íntimo e pude até mesmo dormir com você. Foi o melhor sono da minha vida! Infelizmente mexi aquela perna e lhe acordei, então acabou que não pude dormir a noite toda contigo, mas uns dias depois eu pude, e mesmo que não pudéssemos estar deitados colados um no outro, foi perfeito para mim, e eu nunca esqueço e nem esquecerei disso.</p>
+<h3>❤️ "Eu te amo!"</h3><p>Por último e com certeza não menos importante, o dia em que eu escutei da sua boca um "TE AMO". KKKKKKKKKKK você não faz ideia do meu choque. Já foi enorme quando você havia escrito por mensagem e carta, mas quando eu escutei aquilo sair da sua boca, puta merda KKKKKKKKKKK.
+    A mulher que eu amo, a mais linda do mundo e a pessoa mais dócil que conheço, disse que me ama, tipo, QUEEEEE????? EU JAMAIS ME ESQUECEREI DISSO.</p></div>
+<div class="setas-navegacao" style="text-align: center; margin-top: 2rem;"><button class="botao-seta" onclick="mostrarPagina('inicio')">⬅ Anterior</button><button class="botao-seta" onclick="mostrarPagina('fotos')">Próxima ➡</button></div></section>
+<section id="fotos">
+<h2 style="text-align: center; font-family: 'Georgia', serif;">As melhores fotos do mundo!</h2>
+<div style="display: flex; justify-content: center; gap: 1rem; padding: 2rem; flex-wrap: nowrap; overflow-x: auto;">
+<div style="text-align: center; max-width: 300px;">
+<img alt="Foto 1" src="https://i.postimg.cc/GhM7PLHr/Imagem-do-Whats-App-de-2025-06-17-s-03-14-01-30e04a03.jpg" style="width: 100%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);"/>
+<p style="margin-top: 0.5rem; font-style: italic;">Eu amo essa foto. Amo esse sorriso lindo que só você tem. Quando me olha sorrindo, vejo uma pequena inocente e frágil que é pura, incrível e perfeita.</p>
+</div>
+<div style="text-align: center; max-width: 300px;">
+<img alt="Foto 2" src="https://i.postimg.cc/dtTk6n01/Imagem-do-Whats-App-de-2025-06-17-s-03-11-57-b4516bcf.jpg" style="width: 100%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);"/>
+<p style="margin-top: 0.5rem; font-style: italic;">Eu nem tenho uma definição clara para esses olhos. Mas com certeza é melhor do que qualquer cor que eu goste, paisagem ou qualquer coisa no mundo. Seus olhinhos são perfeitos. Não faz ideia do quão feliz eu fiquei quando recebi essa trend de você.</p>
+</div>
+<div style="text-align: center; max-width: 300px;">
+<img alt="Foto 3" src="https://i.postimg.cc/NfS2CMFc/Imagem-do-Whats-App-de-2025-06-17-s-03-11-23-3511ad5a.jpg" style="width: 100%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);"/>
+<p style="margin-top: 0.5rem; font-style: italic;">No dia em que me mandou essa foto, lembro de estar tendo uma semana ou uns dias bem complicados e cansativos. Lembro que já era mais 00:00 quando me mandou. Só me lembro de ficar umas meia hora com o fone olhando essa foto e pensando como seria chegar do trabalho e ter essa princesinha fazendo biquinho com uma pirralha ainda menor do lado, ou um pirralho... Seria incrível. Tão fofa...</p>
+</div>
+</div>
+<div class="setas-navegacao" style="text-align: center; margin-top: 2rem;"><button class="botao-seta" onclick="mostrarPagina('momentos')">⬅ Anterior</button><button class="botao-seta" onclick="mostrarPagina('futuro')">Próxima ➡</button></div></section>
+<section id="futuro"><div class="page">
+<h3>🎁 Presente</h3>
+<p>
+Bom, estamos em uma fase onde estamos bem, acredito eu. Não sei o que devemos fazer no termo de oficializar algo ou o que pensa disso, e por mim, isso aqui tudo já serviria de inspiração para colocar um pedido de namoro, arranjar alianças e oficializar tudo de forma clara e como NAMORO. Mas não sei o que pensa disso e tenho medo que a titia não goste.
+</p>
+<p>
+Separei essa área pra dizer o quão feliz estou por termos nos resolvido e por finalmente poder estar juntos, mesmo que de forma não oficializada como namoro em si. Mas algo parecido, afinal né, você entendeu.
+</p>
+<p>
+Não quero perder isso, e às vezes tenho medo de que possam impedir a gente de levar isso adiante, então sobre isso, por favor, fale comigo quando for da sua vontade. Querendo arriscar as coisas ou não, estou aqui, mas para tomar a atitude e a rédia de certas coisas, preciso de você dizendo que está tudo bem e que posso fazer isso sem problema!
+</p>
+<p>
+Obrigado por cada abraço. Obrigado por cada sorriso, tanto o seu, quanto os que tirou de mim. Obrigado por cada momento, seja na sua casa ou quando nos divertimos na rua. Obrigado por cada cuidado, as coisas às vezes não são fáceis, e às vezes me sinto sufocado, mas você sempre consegue me ajudar, seja com uma conversa pelo celular à noite, seja quando vou aí porque minha mãe fez merda ou estou com problemas ou simplesmente um abraço.
+</p>
+<p>
+Você faz muito, mesmo sem saber. Obrigado pelos melhores beijos do mundo. Obrigado por cada tempo que tirou para me ouvir. Obrigado por cada carta que fez para mim e por cada esforço. Obrigado por existir, obrigado por ser tudo o que é quando está ao meu lado ou quando está falando comigo... Obrigado!!
+</p>
+<h3>🌅 Futuro</h3>
+<p>
+Esse aqui, é para falar do que espero para o futuro.
+Somos muito novos, e sei que falar de futuro é algo complicado e talvez errado, mas se escolher ficar, serei completamente azarado (puro memeKKKKKKKK), serei completamente feliz e serei seu eternamente.
+</p>
+<p>
+Espero que possamos crescer, aprender coisas novas, virar ótimos profissionais, construir nosso futuro e ser boas pessoas. Espero poder fazer tudo isso ao seu lado, mesmo sabendo que às vezes haverá distância e problemas. Espero que cresçamos mentalmente e espiritualmente. Espero que possamos adquirir tudo o possível para não só continuar com esse amor "bobo" de adolescentes, mas também sermos capazes de nos casar e construir uma linda família juntos.
+</p>
+<p>
+Espero que possamos aproveitar muito nossos momentos no futuro. Espero que possamos rir como rimos e nos divertimos hoje em dia em cada provocação ou piada idiota que fazemos.
+</p>
+<p>
+Espero que coisas lindas te aconteçam e você seja completamente feliz.
+Espero que a gente consiga se desenvolver e criar um laço infinito, uma linha tênue. Espero te amar mais e mais a cada dia, assim como é hoje, e não só espero, mas sei que vou.
+</p>
+<p>
+Nosso futuro ainda está em branco, mas não vejo um futuro tão lindo sozinho quanto seria ao teu lado. Se um dia pudermos realizar essas coisas e outros desejos, eu serei o ser mais feliz do mundo, assim como sou agora no presente, já que recentemente escutei um "EU TE AMO". Realmente espero que seja o primeiro de muitos!
+</p>
+</div><div class="setas-navegacao" style="text-align: center; margin-top: 2rem;"><button class="botao-seta" onclick="mostrarPagina('fotos')">⬅ Anterior</button><button class="botao-seta" onclick="mostrarPagina('musicas')">Próxima ➡</button></div></section><section id="musicas"><h2>Músicas filhadaputamente inspiradas em você ou ao que sinto sobre vocêKKKK</h2>
+<div style="display: flex; align-items: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
+<img alt="Lied to – Zayn" src="https://i.postimg.cc/DZDDs4Cw/Imagem-do-Whats-App-de-2025-06-18-s-02-01-20-bf0957dc.jpg" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3);"/>
+<div style="flex: 1;">
+<h4 class="musica-titulo">🎧 Lied to – Zayn</h4>
+<audio controls="" style="width: 100%;">
+<source src="https://audio.jukehost.co.uk/tZXJYo5Qv1MDrGnjxoy3GNS5Qzb8XhdB" type="audio/mpeg"/>
+          Seu navegador não suporta áudio.
+        </audio>
+<hr style="margin: 1rem 0; border: 0; height: 1px; background: rgba(255,255,255,0.2);"/>
+<p class="descricao-musica" style="font-family: 'Georgia', serif; font-size: 0.95rem;">
+  Lied To é uma música escrota e que simplesmente conheci no mesmo tempo em que começamos a nos aproximar.
+  Acho que eu te mostrei ela e você começou a gostar se não me engano, ou então já gostava.
+  Mas lembro que sempre escutávamos e parece ser "nossa música".
+  Nesse trecho da música, não tem a parte que eu queria colocar. Tem uma parte nesse trecho que diz:<br/><br/>
+<strong>“You make me burn for your touch. You make me burn for your love.”</strong><br/>
+  E sim, você faz isso.<br/><br/>
+
+  A parte que eu queria mesmo é essa aqui:<br/><br/>
+<strong>🎶 Trecho:</strong><br/>
+<span style="display: flex; flex-direction: column; gap: 0.3rem;">
+<span><em>I can't live without you, can't breathe without you</em> — <em>Não posso viver sem você, não consigo respirar sem você</em></span>
+<span><em>No need to doubt yourself</em> — <em>Não precisa duvidar de si mesma</em></span>
+<span><em>I'm infatuated with the things you do</em> — <em>Sou fascinado pelas coisas que você faz</em></span>
+<span><em>You do me right</em> — <em>Você me faz bem</em></span>
+<span><em>You stay by my side</em> — <em>Você fica ao meu lado</em></span>
+<span><em>Through thick and thin</em> — <em>Nos altos e baixos</em></span>
+<span><em>This sentiment don't exist without you</em> — <em>Esse sentimento não existe sem você</em></span>
+<span><em>You make me feel alive</em> — <em>Você me faz sentir vivo</em></span>
+</span>
+</p>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
+<img alt="Those Eyes" src="https://i.postimg.cc/1XtTVc0T/Imagem-do-Whats-App-de-2025-06-18-s-02-01-20-3760efd1.jpg" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3);"/>
+<div style="flex: 1;">
+<h4 class="musica-titulo">🎧 Those Eyes</h4>
+<audio controls="" style="width: 100%;">
+<source src="https://audio.jukehost.co.uk/ye3qXVGWVBxh6ghXhGq22BzDLA4co6eD" type="audio/mpeg"/>
+          Seu navegador não suporta áudio.
+        </audio>
+<hr style="margin: 1rem 0; border: 0; height: 1px; background: rgba(255,255,255,0.2);"/>
+<p class="descricao-musica" style="font-family: 'Georgia', serif; font-size: 0.95rem;">
+  Nessa música eu nem vou citar apenas um trecho... Talvez você não goste dela ao escutar ou sei lá,
+  mas ela diz tudo o que somos e também o que eu espero que sejamos.<br/><br/>
+<strong>🎶 Trecho:</strong><br/>
+<span style="display: flex; flex-direction: column; gap: 0.3rem;">
+<span><em>When we’re out in a crowd laughing loud and nobody knows why</em> — <em>Quando estamos no meio da multidão rindo alto e ninguém sabe por quê</em></span>
+<span><em>When we’re lost at a club getting drunk and you give me that smile</em> — <em>Quando estamos perdidos numa balada, ficando bêbados, e você me dá aquele sorriso</em></span>
+<span><em>Going home in the back of a car and your hand touches mine</em> — <em>Voltando pra casa no banco de trás e sua mão toca a minha</em></span>
+<span><em>When we’re done making love and you look up and give me those eyes</em> — <em>Depois de fazermos amor e você olha pra mim com aquele olhar</em></span>
+<br/>
+<span><em>Cause' all of the small things that you do</em> — <em>Porque todas as pequenas coisas que você faz</em></span>
+<span><em>Are what remind me why I fell for you</em> — <em>São o que me lembram porque me apaixonei por você</em></span>
+<span><em>And when we’re apart and I’m missing you</em> — <em>E quando estamos longe e estou com saudade de você</em></span>
+<span><em>I close my eyes and all I see is you</em> — <em>Eu fecho os olhos e tudo que vejo é você</em></span>
+<span><em>And the small things you do</em> — <em>E as pequenas coisas que você faz</em></span>
+</span>
+</p>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
+<img alt="Je Te Laisserai Des Mots" src="https://i.postimg.cc/QMzWrj4T/Imagem-do-Whats-App-de-2025-06-18-s-02-01-20-8abc4d51.jpg" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3);"/>
+<div style="flex: 1;">
+<h4 class="musica-titulo">🎧 Je Te Laisserai Des Mots</h4>
+<audio controls="" style="width: 100%;">
+<source src="https://audio.jukehost.co.uk/UDigejw5lmrDLaR1fi1ewmUqrvc2gDdR" type="audio/mpeg"/>
+          Seu navegador não suporta áudio.
+        </audio>
+<hr style="margin: 1rem 0; border: 0; height: 1px; background: rgba(255,255,255,0.2);"/>
+<p class="descricao-musica" style="font-family: 'Georgia', serif; font-size: 0.95rem;">
+  Essa música é uma maravilha, não acho que goste mas ela é linda, ela fala da saudade extrema,
+  uma saudade que te faz se imaginar beijando o amor da sua vida. Minha saudade por você a todo momento
+  chega a essa extremidade, mesmo depois de passarmos uma semana juntos, algumas horas ou apenas alguns minutos.
+  Bom, sei que sentiria isso a minha vida toda, mesmo podendo estar ao seu lado como marido, pai...
+  Mas só de não poder estar ao seu lado ao ir deixar nossos filhos na escola,
+  ou só de me afastar um pouquinho de você já sinto e sei que sentiria isso.
+  Afinal, acho que faz parte do amar!
+  <br/><br/>
+<strong>🎶 Trecho:</strong><br/>
+<span style="display: flex; flex-direction: column; gap: 0.3rem;">
+<span><em>Je te laisserai des mots</em> — <em>Deixarei palavras para você</em></span>
+<span><em>En-dessous de ta porte</em> — <em>Debaixo da sua porta</em></span>
+<span><em>En-dessous de les murs qui chantent</em> — <em>Debaixo das paredes que cantam</em></span>
+<span><em>Tout près de la place où tes pieds passent</em> — <em>Bem perto do lugar onde seus pés passam</em></span>
+<span><em>Cachés dans les trous de ton divan</em> — <em>Escondidas nos buracos do seu sofá</em></span>
+<span><em>Et quand tu es seule pendant un instant</em> — <em>E quando você estiver sozinha por um instante</em></span>
+<br/>
+<span><em>Ramasse-moi</em> — <em>Recolha-me</em></span>
+<span><em>Quand tu voudras</em> — <em>Quando você quiser</em></span>
+<br/>
+<span><em>Embrasse-moi</em> — <em>Beije-me</em></span>
+<span><em>Quand tu voudras</em> — <em>Quando você quiser</em></span>
+<br/>
+<span><em>Ramasse-moi</em> — <em>Recolha-me</em></span>
+<span><em>Quand tu voudras</em> — <em>Quando você quiser</em></span>
+</span>
+</p>
+</div>
+</div>
+<div class="setas-navegacao" style="text-align: center; margin-top: 2rem;"><button class="botao-seta" onclick="mostrarPagina('futuro')">⬅ Anterior</button><button class="botao-seta" onclick="mostrarPagina('fim')">Próxima ➡</button></div></section>
+<section id="tema"><div class="page"><h2 style="text-align: center; font-family: 'Georgia', serif;">Presente
+
+Futuro</h2></div></section><section id="fimdocomeco"><h2 style="text-align: center; font-family: 'Georgia', serif; color: white;">Fim do começo</h2><div class="slider"><div class="slide">Você já pensou em tudo o que ela faz por você?</div><div class="slide">Em todos os dias que ela deixou de fazer algo por você?</div><div class="slide">Em como ela te ajuda mesmo sem perceber?</div><div class="slide">Ela faz coisas pequenas, mas com muito amor.</div><div class="slide">Ela se importa com o que você sente.</div><div class="slide">Ela te ama de verdade.</div><div class="slide">Não perca uma pessoa assim...</div><div class="slide">Ela é única.</div><div class="slide">Ela é um presente.</div><div class="slide">Ela é amor.</div><div class="slide">Ela é o seu lar.</div><div class="slide">Ela merece o mundo.</div><div class="slide">Ela é o seu mundo.</div><div class="slide">Ela merece ser lembrada todos os dias...</div><div class="slide">Com carinho. Com cuidado. Com amor.</div><div class="slide">Fim</div></div><audio id="slideAudio" loop="true" src="snaptik_7338598393553489158 (online-audio-converter.com).mp3" type="audio/mpeg"></audio><button id="toggleAudio" style="display: block; margin: 1rem auto; padding: 0.5rem 1rem; font-size: 1rem; background: #f4a7b9; color: white; border: none; border-radius: 8px; cursor: pointer;">🔊 Música</button></section><section id="fim">
+<h2 style="text-align: center; font-family: 'Georgia', serif; color: white; margin: 1rem 0 0.5rem;">Fim do começo</h2>
+<section id="carrossel-fotos" style="display: flex; justify-content: center; margin: 0;">
+<div style="width: 100%; max-width: 600px; height: 600px; background: white; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.15); overflow: hidden; position: relative;">
+<div id="slideFotos" style="display: flex; width: 100%; height: 100%; transition: transform 0.6s ease;">
+<div style="flex-shrink: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+<img src="https://i.postimg.cc/Df13pppj/Imagem-do-Whats-App-de-2025-06-17-s-23-10-42-553c8094.jpg" style="width: 100%; height: 100%; object-fit: cover;"/>
+</div>
+<div style="flex-shrink: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+<img src="https://i.postimg.cc/8cxFCKWn/Imagem-do-Whats-App-de-2025-06-17-s-23-10-57-a6f24b0a.jpg" style="width: 100%; height: 100%; object-fit: cover;"/>
+</div>
+<div style="flex-shrink: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+<img src="https://i.postimg.cc/8kvfKDV2/Imagem-do-Whats-App-de-2025-06-17-s-23-11-22-c16ba493.jpg" style="width: 100%; height: 100%; object-fit: cover;"/>
+</div>
+<div style="flex-shrink: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+<img src="https://i.postimg.cc/Gh3GgVhd/Imagem-do-Whats-App-de-2025-06-17-s-23-11-41-5c089e44.jpg" style="width: 100%; height: 100%; object-fit: cover;"/>
+</div>
+</div>
+</div>
+</section>
+<audio autoplay="" id="audioCasamento" loop="">
+<source src="snaptik_7338598393553489158 (online-audio-converter.com).mp3" type="audio/mpeg"/>
+  Seu navegador não suporta áudio.
+</audio>
+<script>
+  const slideFotos = document.getElementById('slideFotos');
+  const total = slideFotos.children.length;
+  let index = 0;
+  setInterval(() => {
+    index = (index + 1) % total;
+    slideFotos.style.transform = `translateX(-${index * 100}%)`;
+  }, 4000);
+</script>
+<div style="text-align: center; margin-top: 2rem; font-family: 'Georgia', serif; color: white; padding: 0 1rem; font-size: 1.2rem; line-height: 1.8;">
+<p>Espero que eu tenha conseguido tirar pelo menos um sorrisinho seu. Eu te amo muito, minha preciosa!</p>
+<p>Para que você não tenha a ousadia falar que me ama mais, deixarei claro em todos os idiomas.</p>
+<p style="margin-top: 1rem;">
+<em>
+    I love you so much more, Te amo mucho más, Je t’aime beaucoup plus, Ti amo molto di più, Ich liebe dich viel mehr, Eu te amo muito mais, Ik hou veel meer van je, Jag älskar dig mycket mer, Jeg elsker deg mye mer, Jeg elsker dig meget mere, Rakastan sinua paljon enemmän, Kocham cię o wiele bardziej, Te iubesc mult mai mult, Sokkal jobban szeretlek, Miluji tě mnohem víc, Σ' αγαπώ πολύ περισσότερο, 我爱你更多, もっともっと愛してる, 훨씬 더 사랑해, मैं तुमसे बहुत ज्यादा प्यार करता हूँ, ฉันรักคุณมากกว่านั้น, Anh yêu em nhiều hơn rất nhiều, Mas mahal kita, Aku sangat lebih mencintaimu, أحبك أكثر بكثير, אני אוהב אותך הרבה יותר, Seni çok daha fazla seviyorum, من تو را خیلی بیشتر دوست دارم, Nakupenda zaidi sana, Ngiyakuthanda kakhulu kakhulu, Aroha nui ake au ki a koe, Ég elska þig miklu meira, . ..- / - . / .- -- --- / -- ..- .. - --- / -- .- .. ...
+    </em>
+</p>
+<div class="heart-fire"></div>
+</div>
+<style>
+@keyframes pulseFire {
+  0% { transform: scale(1); box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.5); }
+  50% { transform: scale(1.1); box-shadow: 0 0 25px 10px rgba(255, 0, 0, 0.8); }
+  100% { transform: scale(1); box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.5); }
+}
+.heart-fire {
+  margin: 2rem auto 1rem;
+  width: 100px;
+  height: 100px;
+  background: red;
+  border-radius: 50% 50% 0 0;
+  transform: rotate(45deg);
+  animation: pulseFire 1.5s infinite;
+  position: relative;
+}
+.heart-fire::before,
+.heart-fire::after {
+  content: "";
+  width: 100px;
+  height: 100px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+.heart-fire::before {
+  top: -50px;
+  left: 0;
+}
+.heart-fire::after {
+  left: -50px;
+  top: 0;
+}
+</style>
+<div class="fim-mensagem">
+<p>Espero que eu tenha conseguido tirar pelo menos um sorrisinho seu. Eu te amo muito, minha preciosa!</p>
+<p>Para que você não tenha a ousadia falar que me ama mais, deixarei claro em todos os idiomas.</p>
+<p style="margin-top: 1rem;">
+<em>
+    I love you so much more, Te amo mucho más, Je t’aime beaucoup plus, Ti amo molto di più, Ich liebe dich viel mehr, Eu te amo muito mais, Ik hou veel meer van je, Jag älskar dig mycket mer, Jeg elsker deg mye mer, Jeg elsker dig meget mere, Rakastan sinua paljon enemmän, Kocham cię o wiele bardziej, Te iubesc mult mai mult, Sokkal jobban szeretlek, Miluji tě mnohem víc, Σ' αγαπώ πολύ περισσότερο, 我爱你更多, もっともっと愛してる, 훨씬 더 사랑해, मैं तुमसे बहुत ज्यादा प्यार करता हूँ, ฉันรักคุณมากกว่านั้น, Anh yêu em nhiều hơn rất nhiều, Mas mahal kita, Aku sangat lebih mencintaimu, أحبك أكثر بكثير, אני אוהב אותך הרבה יותר, Seni çok daha fazla seviyorum, من تو را خیلی بیشتر دوست دارم, Nakupenda zaidi sana, Ngiyakuthanda kakhulu kakhulu, Aroha nui ake au ki a koe, Ég elska þig miklu meira, . ..- / - . / .- -- --- / -- ..- .. - --- / -- .- .. ...
+    </em>
+</p>
+</div>
+<div class="setas-navegacao" style="text-align: center; margin-top: 2rem;"><button class="botao-seta" onclick="mostrarPagina('musicas')">⬅ Anterior</button></div>
+<div style="text-align: center; margin-top: 2rem;">
+<button class="botao-amor" onclick="mostrarCategoriaSecreta()">
+    💌 Clique aqui
+  </button>
+</div>
+</section><script>
+    function mostrarPagina(paginaId) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      const pagina = document.getElementById(paginaId);
+      if (pagina) {
+        pagina.classList.add('active');
+      } else {
+        console.warn(`Página com ID '${paginaId}' não encontrada.`);
+      }
+    }
+  </script>
+<div class="heart" style="left: 0%; bottom: -10px; animation-delay: 0.0s;"></div><div class="heart" style="left: 5%; bottom: -10px; animation-delay: 0.5s;"></div><div class="heart" style="left: 10%; bottom: -10px; animation-delay: 1.0s;"></div><div class="heart" style="left: 15%; bottom: -10px; animation-delay: 1.5s;"></div><div class="heart" style="left: 20%; bottom: -10px; animation-delay: 2.0s;"></div><div class="heart" style="left: 25%; bottom: -10px; animation-delay: 2.5s;"></div><div class="heart" style="left: 30%; bottom: -10px; animation-delay: 3.0s;"></div><div class="heart" style="left: 35%; bottom: -10px; animation-delay: 3.5s;"></div><div class="heart" style="left: 40%; bottom: -10px; animation-delay: 4.0s;"></div><div class="heart" style="left: 45%; bottom: -10px; animation-delay: 4.5s;"></div><div class="heart" style="left: 50%; bottom: -10px; animation-delay: 5.0s;"></div><div class="heart" style="left: 55%; bottom: -10px; animation-delay: 5.5s;"></div><div class="heart" style="left: 60%; bottom: -10px; animation-delay: 6.0s;"></div><div class="heart" style="left: 65%; bottom: -10px; animation-delay: 6.5s;"></div><div class="heart" style="left: 70%; bottom: -10px; animation-delay: 7.0s;"></div><div class="heart" style="left: 75%; bottom: -10px; animation-delay: 7.5s;"></div><div class="heart" style="left: 80%; bottom: -10px; animation-delay: 8.0s;"></div><div class="heart" style="left: 85%; bottom: -10px; animation-delay: 8.5s;"></div><div class="heart" style="left: 90%; bottom: -10px; animation-delay: 9.0s;"></div><div class="heart" style="left: 95%; bottom: -10px; animation-delay: 9.5s;"></div><script>
+const btn = document.getElementById('themeToggle');
+btn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
+});
+</script><script>
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === index);
+  });
+}
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
+showSlide(currentSlide);
+setInterval(nextSlide, 5000);
+
+const audio = document.getElementById("slideAudio");
+const toggleAudio = document.getElementById("toggleAudio");
+let isPlaying = false;
+toggleAudio.addEventListener("click", () => {
+  if (isPlaying) {
+    audio.pause();
+    toggleAudio.textContent = "🔇 Música";
+  } else {
+    audio.play();
+    toggleAudio.textContent = "🔊 Música";
+  }
+  isPlaying = !isPlaying;
+});
+</script>
+<script>
+  function mostrarCategoriaSecreta() {
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById('secreto').style.display = 'block';
+  }
+</script>
+<section id="secreto" style="display: none;">
+<div style="background-image: url('https://i.postimg.cc/tJbjgM3m/Imagem-do-Whats-App-de-2025-06-18-s-04-18-21-0438fc3c.jpg'); background-size: cover; background-position: center; min-height: 100vh; padding: 3rem 1rem; color: white; text-shadow: 1px 1px 2px black;">
+<div style="max-width: 800px; margin: auto; background: rgba(0,0,0,0.6); padding: 2rem; border-radius: 15px; font-family: 'Georgia', serif; font-size: 1.2rem; line-height: 1.8;">
+      EU TE AMO MAIS QUE TUDO, amo sua família, e vocês (principalmente você) me fazeem/faz muito bem. Extremo falar "Eu te amo mais que tudo" a uma adolescente que pode me quebrar a qualquer momento, mas sei que por você, vale a pena o risco. Talvez seja tolice, mas se expressar isso a você é tolice, serei tolo com prazer.<br/><br/>
+      Espero ter conseguido lhe agradar um pouquinho, e por favor, me diga algo sobre o que achou ou responda as escrituras, descrições e comentários, vou amar escutar.<br/><br/>
+      Detalhe super importante, mereço um áudio enorme comentando sobre isso vai, amo sua voz e depois de ter todo o trabalho, realmente espero poder escutar tudo isso da sua voz, pessoalmente ou em áudio.
+      <div style="margin-top: 3rem; text-align: center; font-size: 1.5rem; font-style: italic;">Esse pequenino volta à tona com você.</div>
+</div>
+<div style="text-align: center; margin-top: 2rem;">
+<button onclick="fecharCategoriaSecreta()" style="padding: 0.5rem 1rem; background: #f4a7b9; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                ❌ Fechar
+            </button>
+</div>
+</div>
+</section>
+<script>
+function fecharCategoriaSecreta() {
+  document.getElementById('secreto').style.display = 'none';
+  mostrarPagina('fim');
+}
+</script>
+<!-- Playlist Lateral -->
+<!-- Playlist Lateral Moderna -->
+<style>
+  #playlist-lateral {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 300px;
+    background: #1e1e1e;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 1rem;
+    border-radius: 0 15px 15px 0;
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
+    z-index: 9998;
+  }
+  #playlist-lateral p {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+  .track {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    background: #2a2a2a;
+    border-radius: 10px;
+    padding: 0.5rem;
+    transition: background 0.3s ease;
+  }
+  .track:hover {
+    background: #333;
+  }
+  .track img {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  .track button {
+    background: none;
+    border: none;
+    color: #1db954;
+    font-size: 1.2rem;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  .track span {
+    flex: 1;
+    color: #fff;
+    font-size: 0.85rem;
+  }
+  .player-controls {
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .player-controls button {
+    background: #1db954;
+    border: none;
+    color: white;
+    padding: 0.3rem 0.7rem;
+    margin: 0 5px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+</style>
+<div id="playlist-lateral">
+<p>Recomendo dar play nessas músicas que sei que gosta.<br/>Espero que tenha uma experiência muito gostosa.</p>
+<audio id="audioPlayer" style="width: 100%; display: none;">
+<source id="audioSource" src="https://audio.jukehost.co.uk/M7bksZZpedZ2wQUdC61x8mwv9YKOvRqS" type="audio/mp3"/>
+    Seu navegador não suporta o player de áudio.
+  </audio>
+<div class="player-controls">
+<button onclick="tocarAnterior()">⏮️</button>
+<button onclick="tocarOuPausar()">⏯️</button>
+<button onclick="tocarProxima()">⏭️</button>
+</div>
+<div class="track"><button onclick="tocarMusica(0)">▶</button><img src="https://i.postimg.cc/JhXYCg6P/Imagem-do-Whats-App-de-2025-06-18-s-15-42-48-ce3e8747.jpg" style="width: 40px; height: 40px; border-radius: 5px; margin-right: 10px; object-fit: cover;"/><span>Ed Sheeran - Photograph</span></div>
+<div class="track"><button onclick="tocarMusica(1)">▶️</button><span>Goo Goo Dolls – Iris</span></div>
+<div class="track"><button onclick="tocarMusica(2)">▶️</button><span>JENNIE - Seoul City</span></div>
+<div class="track"><button onclick="tocarMusica(3)">▶️</button><span>Flatline</span></div>
+<div class="track"><button onclick="tocarMusica(4)">▶️</button><span>The Weeknd - Often</span></div>
+<div class="track"><button onclick="tocarMusica(5)">▶️</button><span>ZAYN - Lied To</span></div>
+<div class="track"><button onclick="tocarMusica(6)">▶️</button><span>Beyoncé - All Night</span></div>
+<div class="track"><button onclick="tocarMusica(7)">▶️</button><span>Or Nah (feat. The Weeknd)</span></div>
+<input class="volume-control" id="volumeSlider" max="1" min="0" step="0.01" style="width: 85%; margin: 15px auto 10px auto; display: block; background: #9333ea; height: 5px; border-radius: 5px; appearance: none;" type="range"/></div>
+<!-- Playlist Lateral Moderna com Tema Preto e Roxo -->
+<style>
+  #playlist-lateral {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 300px;
+    background: linear-gradient(135deg, #000000, #7f00ff);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 1rem;
+    border-radius: 0 15px 15px 0;
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
+    z-index: 9998;
+  }
+  #playlist-lateral p {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+  .track {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 0.5rem;
+    transition: background 0.3s ease;
+  }
+  .track:hover {
+    background: #292929;
+  }
+  .track button {
+    background: none;
+    border: none;
+    color: #bb86fc;
+    font-size: 1.3rem;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  .track button:hover {
+    color: #ffffff;
+  }
+  .track span {
+    flex: 1;
+    color: #fff;
+    font-size: 0.85rem;
+  }
+  .player-controls {
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .player-controls button {
+    background: #7f00ff;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin: 0 5px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .player-controls button:hover {
+    background: #9c47ff;
+  }
+</style>
+<div id="playlist-lateral">
+<p>Recomendo dar play nessas músicas que sei que gosta.<br/>Espero que tenha uma experiência muito gostosa.</p>
+<audio id="audioPlayer" style="width: 100%; display: none;">
+<source id="audioSource" src="https://audio.jukehost.co.uk/M7bksZZpedZ2wQUdC61x8mwv9YKOvRqS" type="audio/mp3"/>
+    Seu navegador não suporta o player de áudio.
+  </audio>
+<div class="player-controls">
+<button onclick="tocarAnterior()">⏮</button>
+<button onclick="tocarOuPausar()">⏯</button>
+<button onclick="tocarProxima()">⏭</button>
+</div>
+<div class="track"><button onclick="tocarMusica(0)">▶️</button><span>Música 1</span></div>
+<div class="track"><button onclick="tocarMusica(1)">▶️</button><span>Música 2</span></div>
+<div class="track"><button onclick="tocarMusica(2)">▶️</button><span>Música 3</span></div>
+<div class="track"><button onclick="tocarMusica(3)">▶️</button><span>Música 4</span></div>
+<div class="track"><button onclick="tocarMusica(4)">▶️</button><span>Música 5</span></div>
+<div class="track"><button onclick="tocarMusica(5)">▶️</button><span>Música 6</span></div>
+<div class="track"><button onclick="tocarMusica(6)">▶️</button><span>Música 7</span></div>
+<div class="track"><button onclick="tocarMusica(7)">▶️</button><span>Música 8</span></div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const musicas = [
+    "https://audio.jukehost.co.uk/M7bksZZpedZ2wQUdC61x8mwv9YKOvRqS",
+    "https://audio.jukehost.co.uk/1wgNOugVMy3umChZramdo4q0sDvwVUJH",
+    "https://audio.jukehost.co.uk/ypPCZpSEgLTRiXghPeLxd6ShYOhTLayZ",
+    "https://audio.jukehost.co.uk/mEUdpLePyBr2VSF2NzxqZWNbiBBtZj0s",
+    "https://audio.jukehost.co.uk/9tvtnFjjy8pQuE6z1NaJQO8lU77CMpm9",
+    "https://audio.jukehost.co.uk/lZbVkA0LAcyelacuTLCCoOtu61xM8pO6",
+    "https://audio.jukehost.co.uk/z0E1hVyLWB7HMixW2wbDHPaOtuH3xIxH",
+    "https://audio.jukehost.co.uk/Xwfl8ZX0a9cS92dZ9YkBc7fWc5B5aZq2"
+  ];
+  let indexAtual = 0;
+  const audio = document.getElementById("audioPlayer");
+  const source = document.getElementById("audioSource");
+
+  window.tocarMusica = function(index) {
+    indexAtual = index;
+    source.src = musicas[index];
+    audio.load();
+    audio.play();
+  }
+
+  window.tocarOuPausar = function() {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }
+
+  window.tocarProxima = function() {
+    indexAtual = (indexAtual + 1) % musicas.length;
+    window.tocarMusica(indexAtual);
+  }
+
+  window.tocarAnterior = function() {
+    indexAtual = (indexAtual - 1 + musicas.length) % musicas.length;
+    window.tocarMusica(indexAtual);
+  }
+
+  window.ajustarVolume = function(valor) {
+    audio.volume = valor;
+  }
+
+  audio.addEventListener("ended", () => {
+    window.tocarProxima();
+  });
+});
+</script><script>
+document.getElementById("volumeSlider").addEventListener("input", function() {
+  const volume = parseFloat(this.value);
+  const audios = document.getElementsByTagName("audio");
+  for (let i = 0; i < audios.length; i++) {
+    audios[i].volume = volume;
+  }
+});
+</script><script>
+document.getElementById("volumeSlider").addEventListener("input", function() {
+  const volume = parseFloat(this.value);
+  const audios = document.getElementsByTagName("audio");
+  for (let i = 0; i < audios.length; i++) {
+    audios[i].volume = volume;
+  }
+});
+</script></body>
+</html>
